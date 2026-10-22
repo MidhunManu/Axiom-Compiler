@@ -1,5 +1,9 @@
 #pragma once
 #include <string>
+#include <optional>
+#include <stdexcept>
+
+#include "token.hpp"
 
 class Lexer
 {
@@ -17,9 +21,13 @@ public:
     [[nodiscard]]
     std::size_t column() const noexcept;
 
+    [[nodiscard]]
+    Token nextToken();
+
 private:
     std::string m_source;
     std::size_t m_current = 0;
     std::size_t m_line = 1;
     std::size_t m_column = 1;
+    void skipWhiteSpaces();
 };
