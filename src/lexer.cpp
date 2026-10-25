@@ -112,9 +112,58 @@ Token Lexer::nextToken()
 	switch (*next)
 	{
 	case '=':
+		if (peek() == '=')
+		{
+			advance();
+			return {TokenKind::EqualEqual, "==", start};
+		}
 		return {TokenKind::Equal, "=", start};
 	case ';':
 		return {TokenKind::Semicolon, ";", start};
+	case '!':
+		if (peek() == '=')
+		{
+			advance();
+			return {TokenKind::BangEqual, "!=", start};
+		}
+		return {TokenKind::Bang, "!", start};
+	case '>':
+		if (peek() == '=')
+		{
+			advance();
+			return {TokenKind::GreaterEqual, ">=", start};
+		}
+		return {TokenKind::Greater, ">", start};
+	case '<':
+		if (peek() == '=')
+		{
+			advance();
+			return {TokenKind::LessEqual, "<=", start};
+		}
+		return {TokenKind::Less, "<", start};
+	case '-':
+		if (peek() == '>')
+		{
+			advance();
+			return {TokenKind::Arrow, "->", start};
+		}
+		return {TokenKind::Minus, "-", start};
+	case '+':
+		return {TokenKind::Plus, "+", start};
+	case '*':
+		return {TokenKind::Star, "*", start};
+	case '/':
+		return {TokenKind::Slash, "/", start};
+	case ':':
+		return {TokenKind::Colon, ":", start};
+	case '(':
+		return {TokenKind::LeftParen, "(", start};
+	case ')':
+		return {TokenKind::RightParen, ")", start};
+	case '{':
+		return {TokenKind::LeftBrace, "{", start};
+	case '}':
+		return {TokenKind::RightBrace, "}", start};
 	default:
 		throw std::runtime_error(
 			"Unexpected character at line " +

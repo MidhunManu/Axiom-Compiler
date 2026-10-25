@@ -22,7 +22,16 @@ enum class TokenKind
     Colon,
     Semicolon,
     Arrow,
-    EndOfFile
+    EndOfFile,
+    LessThan,
+    GreaterThan,
+    Bang,
+    EqualEqual,
+    BangEqual,
+    Less,
+    LessEqual,
+    Greater,
+    GreaterEqual,
 };
 
 struct SourceLocation

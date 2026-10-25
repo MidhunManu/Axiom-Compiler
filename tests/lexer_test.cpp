@@ -105,3 +105,37 @@ TEST(LexerTest, WhitespaceOnlyInputReturnsEOF)
 
     EXPECT_EQ(lexer.nextToken().kind, TokenKind::EndOfFile);
 }
+
+TEST(LexerTest, RecognizesMultiCharacterOperators)
+{
+    Lexer lexer("== != <= >= ->");
+
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::EqualEqual);
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::BangEqual);
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::LessEqual);
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::GreaterEqual);
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::Arrow);
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::EndOfFile);
+}
+
+TEST(LexerTest, DistinguishesSingleAndDoubleCharacterOperators)
+{
+    Lexer lexer("= == < <= - ->");
+
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::Equal);
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::EqualEqual);
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::Less);
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::LessEqual);
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::Minus);
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::Arrow);
+}
+
+TEST(LexerTest, RecognizesArithmeticOperators)
+{
+    Lexer lexer("+ - * /");
+
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::Plus);
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::Minus);
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::Star);
+    EXPECT_EQ(lexer.nextToken().kind, TokenKind::Slash);
+}
